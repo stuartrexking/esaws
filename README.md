@@ -21,6 +21,12 @@ cd esaws
 AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY bash -c 'vagrant up'
 ```
 
+I'm not sure how to run the command on Windows. At a guess
+
+```
+AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY vagrant up
+```
+
 This will
 
 1. Download a vanilla ubuntu/trusty image
