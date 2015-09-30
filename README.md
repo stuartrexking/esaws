@@ -3,9 +3,7 @@
  * [Description](#description)
  * [Dependencies](#dependencies)
  * [Setup](#setup)
- * [Observe Processes](#observe-processes)
- * [Create an Event](#create-an-event)
-
+ 
 ### Description
 
 The Vagrantfile will create an Ubuntu Trusty instance where you can drive the cluster build from.
