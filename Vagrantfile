@@ -19,11 +19,12 @@ sudo chmod +x /tmp/terraform*
 sudo mv /tmp/terraform* /usr/local/bin/
 
 git clone https://github.com/stuartrexking/esaws.git /home/vagrant/esaws
+sudo chown -R vagrant:vagrant /home/vagrant/esaws
 
 AWS_ACCESS_KEY_ID=$(cat "/esawsvars/AWS_ACCESS_KEY_ID") \
 AWS_SECRET_ACCESS_KEY=$(cat "/esawsvars/AWS_SECRET_ACCESS_KEY") \
 AWS_DEFAULT_REGION=eu-west-1 \
-bash -c 'aws ec2 create-key-pair --key-name esaws --output text > /home/vagrant/esaws/esaws.pem'
+bash -c 'aws ec2 create-key-pair --key-name esaws --query 'KeyMaterial' --output text > /home/vagrant/esaws/esaws.pem'
 
 cat <<EOF > /home/vagrant/esaws/terraform.tfvars
 access_key = "$(cat '/esawsvars/AWS_ACCESS_KEY_ID')"
