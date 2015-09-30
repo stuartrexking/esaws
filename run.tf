@@ -30,12 +30,12 @@ provider "aws" {
 }
 
 module "vpc" {
-    source = "/Users/stuartrexking/Workspace/go/src/github.com/stuartrexking/esaws/modules/vpc"
+    source = "modules/vpc"
     region = "eu-west-1"
 }
 
 module "bastion" {
-    source = "/Users/stuartrexking/Workspace/go/src/github.com/stuartrexking/esaws/modules/bastion"
+    source = "modules/bastion"
     region = "${var.region}"
     ami = "${lookup(var.ami, var.region)}"
     vpc_id = "${module.vpc.vpc_id}"
@@ -45,12 +45,12 @@ module "bastion" {
 }
 
 module "consul" {
-    source = "/Users/stuartrexking/Workspace/go/src/github.com/stuartrexking/esaws/modules/consul"
+    source = "modules/consul"
     vpc_id = "${module.vpc.vpc_id}"
 }
 
 module "eventstore" {
-    source = "/Users/stuartrexking/Workspace/go/src/github.com/stuartrexking/esaws/modules/eventstore"
+    source = "modules/eventstore"
     region = "${var.region}"
     ami = "${lookup(var.ami, var.region)}"
     vpc_id = "${module.vpc.vpc_id}"
@@ -62,7 +62,7 @@ module "eventstore" {
 }
 
 module "nginx" {
-    source = "/Users/stuartrexking/Workspace/go/src/github.com/stuartrexking/esaws/modules/nginx"
+    source = "modules/nginx"
     region = "${var.region}"
     ami = "${lookup(var.ami, var.region)}"
     vpc_id = "${module.vpc.vpc_id}"
