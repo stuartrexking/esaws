@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-sudo mkdir -p /etc/nginx/templates
-
 sudo rm /etc/nginx/sites-enabled/default
 
 sudo mv /tmp/upstart-consul-template-nginx-eventstore.conf /etc/init/consul-template-nginx-eventstore.conf
