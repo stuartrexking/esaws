@@ -38,7 +38,7 @@ resource "aws_security_group" "bastionsg" {
 }
 
 resource "aws_instance" "bastion" {
-    ami = "${lookup(var.bastion_ami, concat(var.region, "-bastion"))}"
+    ami = "${var.ami}"
     instance_type = "${var.bastion_instance_type}"
     key_name = "${var.key_name}"
     subnet_id = "${var.subnet_id}"
@@ -59,7 +59,6 @@ resource "aws_instance" "bastion" {
 
     provisioner "remote-exec" {
         scripts = [
-            "${path.module}/../../scripts/system/install.sh",
             "${path.module}/../../scripts/users/install.sh"
         ]
     }

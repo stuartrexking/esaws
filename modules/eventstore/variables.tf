@@ -10,15 +10,11 @@ variable "private_subnet_cidr_block" {
     default = "10.0.1.0/24"
 }
 
-variable "eventstore_ami" {
-    description = "AWS Ubuntu AMI Id"
-    default = {
-        eu-west-1-eventstore = "ami-47a23a30"
-    }
+variable "ami" {
 }
 
 variable "eventstore_instance_type" {
-    default = "t2.micro"
+    default = "t1.micro"
 }
 
 variable "region" {

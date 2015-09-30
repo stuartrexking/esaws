@@ -1,0 +1,38 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "eu-west-1",
+      "source_ami": "ami-5da23a2a",
+      "instance_type": "t1.micro",
+      "ssh_username": "ubuntu",
+      "ami_name": "master {{timestamp}}",
+      "ami_groups": [
+        "all"
+      ]
+    }
+  ],
+  "description": "Master Image",
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "scripts/consul/upstart.conf",
+      "destination": "/tmp/consul-upstart.conf"
+    },
+    {
+      "type": "file",
+      "source": "scripts/consul/upstart-join.conf",
+      "destination": "/tmp/consul-upstart-join.conf"
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "scripts/system/install.sh",
+        "scripts/consul/install.sh",
+        "scripts/dnsmasq/install.sh",
+        "scripts/eventstore/install.sh",
+        "scripts/nginx/install.sh"
+      ]
+    }
+  ]
+}

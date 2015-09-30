@@ -1,21 +1,15 @@
 #!/bin/bash
 set -e
 
-#update then upgrade all existing packages
-echo "Adding mirrors"
-curl -sS https://www.google.com.au/ > /dev/null
 sudo sed -i '1ideb mirror://mirrors.ubuntu.com/mirrors.txt trusty main restricted universe multiverse' /etc/apt/sources.list
-sudo cat /etc/apt/sources.list
 sudo apt-get update
 
-#install dependencies
 sudo apt-get -y install curl ntp zip unzip
 
-#close all ports except ssh and ntp
-#sudo ufw allow ssh
-#sudo ufw allow ntp
-#sudo ufw logging on
-#sudo ufw --force enable
+sudo ufw allow ssh
+sudo ufw allow ntp
+sudo ufw logging on
+sudo ufw --force enable
 
 #set max open file limits
 sudo bash -c 'cat <<EOF > /etc/security/limits.d/max.limits.conf

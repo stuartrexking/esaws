@@ -35,13 +35,6 @@ resource "aws_security_group" "eventstoresg" {
             "${var.private_subnet_cidr_block}"]
     }
 
-    egress {
-        from_port = 1112
-        to_port = 1112
-        protocol = "tcp"
-        cidr_blocks = [
-            "${var.private_subnet_cidr_block}"]
-    }
 
     ingress {
         from_port = 1113
@@ -51,23 +44,7 @@ resource "aws_security_group" "eventstoresg" {
             "${var.public_subnet_cidr_block}"]
     }
 
-    egress {
-        from_port = 1113
-        to_port = 1113
-        protocol = "tcp"
-        cidr_blocks = [
-            "${var.public_subnet_cidr_block}"]
-    }
-
     ingress {
-        from_port = 2112
-        to_port = 2112
-        protocol = "tcp"
-        cidr_blocks = [
-            "${var.private_subnet_cidr_block}"]
-    }
-
-    egress {
         from_port = 2112
         to_port = 2112
         protocol = "tcp"
@@ -81,6 +58,37 @@ resource "aws_security_group" "eventstoresg" {
         protocol = "tcp"
         cidr_blocks = [
             "${var.public_subnet_cidr_block}"]
+    }
+}
+
+resource "aws_security_group" "eventstore_upstream_sg" {
+    name = "eventstore_upstream"
+    description = "Security Group for the Event Store instance in the private subnet"
+    vpc_id = "${var.vpc_id}"
+
+    egress {
+        from_port = 1112
+        to_port = 1112
+        protocol = "tcp"
+        cidr_blocks = [
+            "${var.private_subnet_cidr_block}"]
+    }
+
+    egress {
+        from_port = 1113
+        to_port = 1113
+        protocol = "tcp"
+        cidr_blocks = [
+            "${var.public_subnet_cidr_block}"]
+    }
+
+
+    egress {
+        from_port = 2112
+        to_port = 2112
+        protocol = "tcp"
+        cidr_blocks = [
+            "${var.private_subnet_cidr_block}"]
     }
 
     egress {
@@ -92,15 +100,15 @@ resource "aws_security_group" "eventstoresg" {
     }
 }
 
-
 resource "aws_instance" "eventstore" {
-    ami = "${lookup(var.eventstore_ami, concat(var.region, "-eventstore"))}"
+    ami = "${var.ami}"
     instance_type = "${var.eventstore_instance_type}"
     key_name = "${var.key_name}"
     subnet_id = "${var.subnet_id}"
     count = "${var.servers}"
     vpc_security_group_ids = [
         "${aws_security_group.eventstoresg.id}",
+        "${aws_security_group.eventstore_upstream_sg.id}",
         "${var.consul_security_group}"
     ]
 
@@ -118,14 +126,6 @@ resource "aws_instance" "eventstore" {
         ]
     }
 
-    //Setup system and users
-    provisioner "remote-exec" {
-        scripts = [
-            "${path.module}/../../scripts/system/install.sh",
-            "${path.module}/../../scripts/users/install.sh"
-        ]
-    }
-
     //Setup consul files
     provisioner "file" {
         source = "${path.module}/../../scripts/consul/upstart.conf"
@@ -140,7 +140,7 @@ resource "aws_instance" "eventstore" {
     provisioner "remote-exec" {
         inline = [
             "echo ${var.servers} > /tmp/consul-server-count",
-            "echo ${aws_instance.eventstore.0.private_dns} > /tmp/consul-server-addr",
+            "echo ${aws_instance.eventstore.0.private_ip} > /tmp/consul-server-addr",
             "echo ${var.servers} > /tmp/eventstore-server-count",
             "echo ${self.private_ip} > /tmp/eventstore-int-addr",
             "echo ${self.private_ip} > /tmp/eventstore-ext-addr"
@@ -149,10 +149,13 @@ resource "aws_instance" "eventstore" {
 
     provisioner "remote-exec" {
         scripts = [
-            "${path.module}/../../scripts/consul/install.sh",
-            "${path.module}/../../scripts/consul/server.sh",
-            "${path.module}/../../scripts/consul/service.sh",
-            "${path.module}/../../scripts/eventstore/install.sh"
+            "${path.module}/../../scripts/users/install.sh",
+            "${path.module}/../../scripts/consul/config.sh",
+            "${path.module}/../../scripts/consul/enable.sh",
+            "${path.module}/../../scripts/consul/start.sh",
+            "${path.module}/../../scripts/eventstore/config.sh",
+            "${path.module}/../../scripts/eventstore/enable.sh",
+            "${path.module}/../../scripts/eventstore/start.sh"
         ]
     }
 }
