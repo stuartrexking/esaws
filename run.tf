@@ -19,7 +19,7 @@ variable "secret_key" {
 variable "ami" {
     description = "AWS Ubuntu AMI Id"
     default = {
-        eu-west-1 = "ami-d73c16a0"
+        eu-west-1 = "ami-3de9c34a"
     }
 }
 
