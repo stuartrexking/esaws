@@ -11,7 +11,7 @@ The Vagrantfile will create an Ubuntu Trusty Vagrant VM where you can drive the 
 
 ### TL;DR
 
-[![esaws TL;DR](https://dl.dropboxusercontent.com/u/5079002/esaws.png =640X480)](https://youtu.be/8RieZz_MR0Y "esaws TL;DR")
+[![esaws TL;DR](https://dl.dropboxusercontent.com/u/5079002/esaws.png =640x480)](https://youtu.be/8RieZz_MR0Y "esaws TL;DR")
 
 ### Dependencies
 
