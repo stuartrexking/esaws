@@ -1,12 +1,17 @@
 # Event Store cluster on AWS
 
  * [Description](#description)
+ * [TL;DR](#tl;dr)
  * [Dependencies](#dependencies)
  * [Setup](#setup)
  
 ### Description
 
 The Vagrantfile will create an Ubuntu Trusty Vagrant VM where you can drive the AWS Cluster build from.
+
+### TL;DR
+
+[![esaws TL;DR](https://photos-2.dropbox.com/t/2/AAAqIP4Q7abGBsonx_LkmkXdaQGa1ut5UodsAMWV-sGfqg/12/5079002/png/32x32/1/_/1/2/Screenshot%202015-10-01%2017.17.16.png/ENrZ5gMYrLMEIAIoAigD/vx93OnIgkUzSuageo5MsyY0sHPBlGK9I695N0C_UCI0?size=640x480&size_mode=2)](https://youtu.be/8RieZz_MR0Y "esaws TL;DR")
 
 ### Dependencies
 
