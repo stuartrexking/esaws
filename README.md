@@ -6,24 +6,27 @@
  
 ### Description
 
-The Vagrantfile will create an Ubuntu Trusty instance where you can drive the cluster build from.
+The Vagrantfile will create an Ubuntu Trusty Vagrant VM where you can drive the AWS Cluster build from.
 
 ### Dependencies
 
 1. Install [Vagrant](https://www.vagrantup.com/)
-1. Create AWS Key Id and Secret Access Key as per the [AWS setup guide](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-set-up.html#cli-signup). Ensure the keys have policy permissions to create resources, e.g. AdministratorAccess. 
+1. Create AWS Key Id and Secret Access Key as per the [AWS setup guide](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-set-up.html#cli-signup). Ensure the keys have policy permissions to create resources, e.g. AdministratorAccess.
+1. The Vagrantfile in the root of this repo. You don't need to clone the repo, but download the Vagrantfile
 
 ### Setup
 
+Linux or OSX
+
 ```
-git clone https://github.com/stuartrexking/esaws
-cd esaws
+wget https://raw.githubusercontent.com/stuartrexking/esaws/master/Vagrantfile
 AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY bash -c 'vagrant up'
 ```
 
 I'm not sure how to run the command on Windows. At a guess
 
 ```
+#Right click copy paste drag drop https://raw.githubusercontent.com/stuartrexking/esaws/master/Vagrantfile
 vagrant up /C "set AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID && set AWS_SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY"
 ```
 
@@ -31,10 +34,10 @@ This will
 
 1. Download a vanilla ubuntu/trusty image
 1. Install Git
-1. Install AWS CLI
+1. Install AWS CLI and other dependencies
 1. Install Terraform
 1. Clone this repo
-1. Configure Terraform with the variables required to run the cluster build
+1. Create the necessary AWS config along with a EC2 Key Pair for your new cluster
 
 Once the Vagrant VM is running
 
